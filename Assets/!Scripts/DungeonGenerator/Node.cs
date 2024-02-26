@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DungeonMaster._2D
+namespace DungeonMaster2D
 {
     [Serializable]
     public class Node : IEquatable<Node>
@@ -22,7 +22,7 @@ namespace DungeonMaster._2D
         {
             get { return new Node(Vector2Int.down); }
         }
-        protected static readonly Node[] directions = new Node[4]
+        public static readonly Node[] directions = new Node[4]
         {
             left,
             up,
@@ -32,13 +32,14 @@ namespace DungeonMaster._2D
 
         [SerializeField] protected Vector2Int m_position;
         [SerializeField] protected Direction m_entrances;
-        [SerializeField] protected RoomType m_roomType;
+        [SerializeField] protected NodeType m_roomType;
         [SerializeField] protected bool m_isRoom;
         protected bool m_hasBeenEvaluated;
 
         public Vector2Int Position
         {
             get { return m_position; }
+            set { m_position = value; }
         }
         public int x
         {
@@ -49,13 +50,15 @@ namespace DungeonMaster._2D
             get { return m_position.y; }
         }
 
+        public int Index => (x * Dungeon2D.DIMENSIONS) + y;
+
         public Direction Entrances
         {
             get { return m_entrances; }
             set { m_entrances = value; }
         }
 
-        public RoomType RoomType
+        public NodeType NodeType
         {
             get { return m_roomType; }
             set { m_roomType = value; }
@@ -81,28 +84,16 @@ namespace DungeonMaster._2D
             m_isRoom = isRoom;
         }
 
-        public bool Validate(Dungeon2D<Node> dungeon, int randomNum)
+        public bool Validate(Dungeon2D dungeon, int randomNum)
         {
             if (!dungeon.InRange(this)) m_isRoom = false;
             else if (dungeon.Exists(this)) m_isRoom = false;
-            else if (dungeon.GetExistingNeighbours(this).GetValidCount() > 1) m_isRoom = false;
+            else if (dungeon.GetExistingNeighbours(this).GetValidNodes() > 1) m_isRoom = false;
             else if (randomNum < 40) m_isRoom = false;
             else m_isRoom = true;
 
             m_hasBeenEvaluated = true;
             return m_isRoom;
-        }
-        
-        public Node[] GetNeighbouringPositions()
-        {
-            Node[] neighbours = new Node[4];
-
-            for (int i = 0; i < 4; i++)
-            {
-                neighbours[i] = this + new Node(directions[i]);
-            }
-
-            return neighbours;
         }
 
         public static float Distance(Node a, Node b)

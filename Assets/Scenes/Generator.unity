@@ -612,12 +612,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e5bfd0bd1e32f4ead185c88b295b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generatorData: {fileID: 11400000, guid: b10fe2005cd97c14bbe618b4ad17bf67, type: 2}
+  _generatorData:
+    UseRandomSeed: 1
+    CurrentSeed: 0
+    TargetRoomCount: 22
   _generatorUI: {fileID: 773653870}
   _roomPlaceholder: {fileID: 8433761207797951450, guid: f5987f1a147ff4a42b755988d6d1130e, type: 3}
   _hallwayPlaceholder: {fileID: 4655707047982197705, guid: 8e9fc948892fd024d90f2b31aa749cbe, type: 3}
   dungeonMap:
-    m_rooms: []
+    _nodes: []
 --- !u!1 &442042373
 GameObject:
   m_ObjectHideFlags: 0

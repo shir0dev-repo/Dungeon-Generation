@@ -1,16 +1,16 @@
-using DungeonMaster._2D;
+using DungeonMaster2D;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DungeonMaster2D : MonoBehaviour
+public class DungeonHolder : MonoBehaviour
 {
     [SerializeField] private DungeonGeneratorData _generatorData;
     [SerializeField] private GeneratorUI _generatorUI;
     [SerializeField] private GameObject _roomPlaceholder;
     [SerializeField] private GameObject _hallwayPlaceholder;
-    public Dungeon2D<Node> dungeonMap;
+    public Dungeon2D dungeonMap;
 
     private void Awake()
     {
@@ -24,26 +24,26 @@ public class DungeonMaster2D : MonoBehaviour
             if (child == transform) continue;
             Destroy(child.gameObject);
         }
-     
+
         dungeonMap = MapGenerator.Generate2D(_generatorData);
 
         Dictionary<Vector2Int, GameObject> blocks = new();
 
-        foreach (Node room in dungeonMap.ValidRooms)
+        foreach (Node room in dungeonMap.ValidNodes)
         {
             if (room != null && !(blocks.ContainsKey(room.Position)))
             {
                 GameObject go = Instantiate(_roomPlaceholder, room, Quaternion.identity);
                 go.transform.SetParent(transform);
                 blocks.Add(room.Position, go);
-                go.transform.GetChild(0).GetComponent<SpriteRenderer>().color = room.RoomType switch
+                go.transform.GetChild(0).GetComponent<SpriteRenderer>().color = room.NodeType switch
                 {
-                    RoomType.Basic => Color.white,
-                    RoomType.Boss => Color.red,
-                    RoomType.Sanctuary => Color.cyan,
-                    RoomType.SanctuaryOld => Color.grey,
-                    RoomType.Treasure => Color.yellow,
-                    RoomType.Secret => Color.magenta,
+                    NodeType.Basic => Color.white,
+                    NodeType.Boss => Color.red,
+                    NodeType.Sanctuary => Color.cyan,
+                    NodeType.SanctuaryOld => Color.grey,
+                    NodeType.Treasure => Color.yellow,
+                    NodeType.Secret => Color.magenta,
                     _ => Color.white
                 };
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DungeonMaster._2D
+namespace DungeonMaster2D
 {
     [System.Flags]
     public enum Direction
@@ -25,7 +25,7 @@ namespace DungeonMaster._2D
             };
         }
 
-        public static void GetNeighbourDirections(this Node origin, Node[] neighbours)
+        public static void SetNeighbourDirections(this Node origin, Node[] neighbours)
         {
             Direction direction = 0;
             for (int i = 0, d = 1; i < neighbours.Length; i++, d *= 2)

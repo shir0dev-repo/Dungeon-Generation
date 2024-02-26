@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Dungeon", menuName = "DungeonMaster/New Dungeon")]
-public class DungeonGeneratorData : ScriptableObject
+[System.Serializable]
+public class DungeonGeneratorData
 {
-    public bool UseRandomSeed = false;
+    public bool UseRandomSeed;
     public int CurrentSeed;
 
     [Space]
-    [Range(12, 36)] public int TargetRoomCount = 32;
+    [Range(12, 36)] public int TargetRoomCount;
 
     public int GetSeed()
     {
